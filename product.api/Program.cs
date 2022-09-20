@@ -1,29 +1,16 @@
-using FluentValidation.AspNetCore;
 using microservice.core;
 using microservice.infrastructure;
-using microservice.infrastructure.Setting;
 using Microsoft.AspNetCore.HttpOverrides;
 using product.api.Extensions.App;
 using product.api.Extensions.Service;
-using Serilog;
 
-IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                                      .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                                      .AddJsonFile(
-                                        $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json"
-                                        , optional: true
-                                        , reloadOnChange: true
-                                                   )
-                                      .Build();
-
-Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 //Infraestructura
-builder.Services.AddDbContexts(builder.Configuration);
+builder.Services.AddDbContexts();
 builder.Services.AddRepository();
 
 //Core
@@ -45,9 +32,6 @@ builder.Services.AddCorsExtension();
 
 //Salud de los servicios
 builder.Services.AddHealthChecks();
-
-//Serilog
-builder.Host.UseSerilog();
 
 //builder.Services.AddControllers();
 //// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -83,7 +67,6 @@ app.UseAuthorization();
 
 //Personalizadas
 app.UseErrorHandlingMiddleware();
-app.UseSerilogRequestLogging();
 
 app.MapControllers();
 app.MapHealthChecks("/health");

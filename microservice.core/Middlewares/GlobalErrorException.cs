@@ -1,6 +1,6 @@
-﻿using microservice.domain.Enums;
+﻿using microservice.core.Interfaces.Services;
+using microservice.domain.Enums;
 using microservice.domain.Exceptions;
-using microservice.domain.Helpers;
 using microservice.domain.Wrappers;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Text;
 
-namespace microservice.domain.Middlewares;
+namespace microservice.core.Middlewares;
 
 public class GlobalErrorException
 {
@@ -24,7 +24,7 @@ public class GlobalErrorException
         _next = next ?? throw new ArgumentNullException(nameof(next));
     }
 
-    public async Task Invoke(HttpContext context)
+    public async Task Invoke(HttpContext context, ILogHelperService logservice)
     {
         try
         {
@@ -37,7 +37,7 @@ public class GlobalErrorException
             var responseModel = new Response<string>() { Succeeded = false, Message = error.Message };
 
             await TypeOfErrorAsync(error, response, responseModel);
-            await HandleExceptionAsync(_requestBody, context, error, response, responseModel, _sw, _beginTime);
+            await HandleExceptionAsync(_requestBody, context, error, response, responseModel, _sw, _beginTime, logservice);
         }
     }
 
@@ -48,7 +48,8 @@ public class GlobalErrorException
         HttpResponse response,
         Response<string> responseModel,
         Stopwatch _sw,
-        DateTime _beginTime
+        DateTime _beginTime,
+        ILogHelperService logservice
         )
     {
         //for client aplication
@@ -59,8 +60,7 @@ public class GlobalErrorException
         var result = JsonConvert.SerializeObject(responseModel, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
         //Erros logs
-        await LogHelper.LogError(
-             ex.Source!,
+        await logservice.LogError(
              _requestBody,
              result,
              _sw,

@@ -1,18 +1,19 @@
-﻿namespace microservice.domain.Entities;
+﻿using microservice.domain.BaseEntities;
 
-public class LogDetail
+namespace microservice.domain.Entities;
+
+public class LogDetail : EntityBase
 {
     public LogDetail()
     {
-        Timestamp = DateTime.Now;
+        DateTimeLogs = DateTime.Now;
     }
 
-    public DateTime Timestamp { get; set; }
+    public DateTime DateTimeLogs { get; set; }
     public string? Message { get; set; }
 
-    //Where
-    public string? Product { get; set; }
-
+    ////Where
+    public string? MicroService { get; set; }
     public string? ActivityName { get; set; }
     public string? Location { get; set; }
     public int StatusCode { get; set; }
@@ -21,17 +22,15 @@ public class LogDetail
     public string? InnerException { get; set; }
     public string? Ip { get; set; }
 
-    //Who
+    ////Who
     public string? UserId { get; set; }
-
     public string? UserName { get; set; }
 
-    //Everything else
+    ////Everything else
     public long? ElapsedMilliSeconds { get; set; }
-
-    public Exception? Exception { get; set; }
+    public string? Exception { get; set; }
     public string? CorrelationalId { get; set; }
     public string? RequestBody { get; set; }
     public string? Response { get; set; }
-    public Dictionary<string, object>? AditionalInfo { get; set; }
+    public string? AditionalInfo { get; set; }
 }

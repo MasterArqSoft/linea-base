@@ -10,7 +10,9 @@ namespace microservice.infrastructure;
 
 public static class ServiceRegistration
 {
-    public static IServiceCollection AddDbContexts(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddDbContexts(this IServiceCollection services
+        //, IConfiguration configuration
+        )
     {
         services.AddDbContext<MicroServiceContext>(options =>
         options.UseSqlServer(connectionString: Connection.GetPartnerConnection(2)));

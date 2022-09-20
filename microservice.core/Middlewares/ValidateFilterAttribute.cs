@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace microservice.domain.Middlewares;
+namespace microservice.core.Middlewares;
 
 public class ValidateFilterAttribute : IAsyncResultFilter
 {

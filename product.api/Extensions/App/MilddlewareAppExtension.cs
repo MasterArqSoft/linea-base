@@ -1,4 +1,4 @@
-﻿using microservice.domain.Middlewares;
+﻿using microservice.core.Middlewares;
 
 namespace product.api.Extensions.App;
 

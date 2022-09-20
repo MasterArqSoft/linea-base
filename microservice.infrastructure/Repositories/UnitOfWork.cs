@@ -14,7 +14,7 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork(MicroServiceContext context) => _context = context;
 
     public IGenericRepository<Product> ProductRepositoryAsync => new ProductRepositoryAsync(_context);
-
+    public IGenericRepository<LogDetail> LogRepositoryAsync => new LogRepositoryAsync(_context);
     public async Task BeginTransactionAsync()
     {
         _transaction = await _context.Database.BeginTransactionAsync().ConfigureAwait(false);

@@ -16,8 +16,10 @@ public class MicroServiceContext : DbContext
     }
 
     public virtual DbSet<Product>? Producto { get; set; }
+    public virtual DbSet<LogDetail>? Logs { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Product>();
+        modelBuilder.Entity<LogDetail>();
     }
 }
