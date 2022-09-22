@@ -25,7 +25,7 @@ public static class Connection
 
     public static string GetConnection()
     {
-        StreamReader r = new(@"C:\Microservices\connection.json");
+        StreamReader r = new(@"./connection.json");
         string jsonString = r.ReadToEnd();
         ConnectionModel connectioModel = JsonConvert.DeserializeObject<ConnectionModel>(jsonString)!;
 
