@@ -63,6 +63,7 @@ app.UseRouting();
 app.UseCors();
 
 //Authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 //Personalizadas

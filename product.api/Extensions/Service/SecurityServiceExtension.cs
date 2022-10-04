@@ -8,15 +8,22 @@ public static class SecurityServiceExtension
 {
     public static void AddAuthenticationExtension(this IServiceCollection services, IConfiguration Configuration)
     {
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-           .AddJwtBearer(opciones => opciones.TokenValidationParameters = new TokenValidationParameters
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(opciones => opciones.TokenValidationParameters = new TokenValidationParameters
            {
-               ValidateIssuer = false,
-               ValidateAudience = false,
+               ValidateIssuer = true,
+               ValidateAudience = true,
+               ValidIssuer = Configuration["JWT:Issuer"],
+               ValidAudience = Configuration["JWT:Audience"],
                ValidateLifetime = true,
                ValidateIssuerSigningKey = true,
                IssuerSigningKey = new SymmetricSecurityKey(
-                 Encoding.UTF8.GetBytes(Configuration["KeyJwt"])),
+                 Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
                ClockSkew = TimeSpan.Zero
            });
     }

@@ -2,11 +2,13 @@
 using microservice.core.Interfaces.Services;
 using microservice.domain.QueryFilters;
 using microservice.domain.Wrappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace product.api.Controllers;
 
+//[Authorize]
 [ApiController]
 [Produces("application/json")]
 [Route("api/Product")]
